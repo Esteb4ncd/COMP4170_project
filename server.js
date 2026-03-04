@@ -26,6 +26,27 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Font list (Part 2: no database – in-memory list of Google Font names)
+const FONT_LIST = [
+  'Playfair Display', 'Lato', 'Open Sans', 'Roboto', 'Montserrat',
+  'Oswald', 'Source Sans Pro', 'Raleway', 'PT Sans', 'Merriweather',
+  'Nunito', 'Ubuntu', 'Poppins', 'Rubik', 'Work Sans',
+  'Inter', 'Fira Sans', 'Quicksand', 'Karla', 'Libre Baskerville',
+  'Crimson Text', 'Lora', 'Bebas Neue', 'Barlow', 'DM Sans',
+  'Space Grotesk', 'Outfit', 'Manrope', 'Plus Jakarta Sans', 'Sora',
+];
+
+function pickRandom(arr, n = 1) {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return n === 1 ? shuffled[0] : shuffled.slice(0, n);
+}
+
+// Random combination of 3 fonts (no DB)
+app.get('/api/random-combination', (req, res) => {
+  const [header, subheader, body] = pickRandom(FONT_LIST, 3);
+  res.json({ header, subheader, body });
+});
+
 // Main page
 app.get('/', (req, res) => {
   res.render('index');

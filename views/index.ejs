@@ -5,12 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Font Pairing</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link id="google-fonts-link" rel="stylesheet" href="">
 </head>
 <body>
   <div class="app">
     <aside class="sidebar">
       <h2 class="sidebar-title">Controls</h2>
-      <p class="sidebar-hint">Lock and Fetch fonts will be added by your team.</p>
+      <button type="button" class="btn-fetch" id="btn-fetch">Fetch fonts</button>
+      <div class="slot" data-slot="header">
+        <label class="slot-label">
+          <input type="checkbox" class="lock" id="lock-header" aria-label="Lock header font">
+          <span class="lock-label">Lock</span> Header
+        </label>
+        <span class="slot-font" id="font-header">—</span>
+      </div>
+      <div class="slot" data-slot="subheader">
+        <label class="slot-label">
+          <input type="checkbox" class="lock" id="lock-subheader" aria-label="Lock subheader font">
+          <span class="lock-label">Lock</span> Subheader
+        </label>
+        <span class="slot-font" id="font-subheader">—</span>
+      </div>
+      <div class="slot" data-slot="body">
+        <label class="slot-label">
+          <input type="checkbox" class="lock" id="lock-body" aria-label="Lock body font">
+          <span class="lock-label">Lock</span> Body
+        </label>
+        <span class="slot-font" id="font-body">—</span>
+      </div>
     </aside>
     <main class="preview">
       <h1 class="preview-header" id="preview-header">Heading</h1>
