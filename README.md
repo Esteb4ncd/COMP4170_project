@@ -8,6 +8,17 @@ A simple Coolors-style tool for exploring font combinations. Sidebar controls le
 - Node.js, Express, EJS
 - PostgreSQL
 
+## Push this project to GitHub
+
+1. On [GitHub](https://github.com/new), create a **new repository** (e.g. `font-pairing-app`). Do **not** add a README or .gitignore (this project already has them).
+2. In the project folder, add the remote and push:
+   ```bash
+   cd font-pairing-app
+   git remote add origin https://github.com/YOUR_USERNAME/font-pairing-app.git
+   git push -u origin main
+   ```
+3. Share the repo URL with your team. Update the clone URL in the section below once the repo exists.
+
 ## For team members: clone and run
 
 1. **Clone the repo** (replace with your actual repo URL):
