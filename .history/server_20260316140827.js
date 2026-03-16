@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Debugging server stuff
+// Debugging environment variables
 // console.log({
 //   DB_USER: process.env.DB_USER,
 //   DB_HOST: process.env.DB_HOST,
