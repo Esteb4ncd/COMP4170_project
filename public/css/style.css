@@ -52,6 +52,17 @@ body {
   background: #555;
 }
 
+.status-message {
+  min-height: 1.25rem;
+  margin: -0.5rem 0 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.status-message.is-error {
+  color: #b91c1c;
+}
+
 .slot {
   margin-bottom: 1rem;
 }

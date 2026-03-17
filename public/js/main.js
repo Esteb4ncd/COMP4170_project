@@ -10,6 +10,17 @@
   const fontBodyEl = document.getElementById('font-body');
   const btnFetch = document.getElementById('btn-fetch');
   const googleFontsLink = document.getElementById('google-fonts-link');
+  const statusMessageEl = document.getElementById('status-message');
+
+  function setStatus(message, isError) {
+    if (!statusMessageEl) return;
+    statusMessageEl.textContent = message || '';
+    statusMessageEl.classList.toggle('is-error', Boolean(isError));
+  }
+
+  function toGoogleFontFamily(fontName) {
+    return encodeURIComponent(fontName).replace(/%20/g, '+');
+  }
 
   function applyFonts() {
     if (fonts.header) {
@@ -24,10 +35,10 @@
       bodyEl.style.fontFamily = `"${fonts.body}", sans-serif`;
       fontBodyEl.textContent = fonts.body;
     }
-    const families = [fonts.header, fonts.subheader, fonts.body].filter(Boolean);
+    const families = Array.from(new Set([fonts.header, fonts.subheader, fonts.body].filter(Boolean)));
     if (families.length) {
       const encoded = families.map(function (f) {
-        return 'family=' + encodeURIComponent(f.replace(/ /g, '+'));
+        return 'family=' + toGoogleFontFamily(f);
       }).join('&');
       googleFontsLink.href = 'https://fonts.googleapis.com/css2?' + encoded + '&display=swap';
     }
@@ -39,21 +50,37 @@
     if (!locks.body) fonts.body = newCombo.body;
   }
 
-  function fetchCombination() {
-    fetch('/api/random-combination')
-      .then(function (res) {
-        if (!res.ok) throw new Error('Request failed: ' + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        if (!data.header || !data.subheader || !data.body) throw new Error('Invalid response');
-        mergeNewCombination(data);
-        applyFonts();
-      })
-      .catch(function (err) {
-        console.error('Failed to fetch fonts', err);
-        alert('Could not fetch fonts. Make sure the server is running (npm start from font-pairing-app) and you opened http://localhost:3000');
-      });
+  async function fetchCombination() {
+    setStatus('Generating font combination...', false);
+    btnFetch.disabled = true;
+    btnFetch.textContent = 'Generating...';
+
+    try {
+      const res = await fetch('/api/random-combination');
+      if (!res.ok) {
+        let serverMessage = '';
+        try {
+          const errData = await res.json();
+          serverMessage = errData.error || errData.message || '';
+        } catch (parseErr) {
+          serverMessage = '';
+        }
+        throw new Error(serverMessage || ('Request failed: ' + res.status));
+      }
+
+      const data = await res.json();
+      if (!data.header || !data.subheader || !data.body) throw new Error('Invalid response');
+
+      mergeNewCombination(data);
+      applyFonts();
+      setStatus('New combination loaded from database.', false);
+    } catch (err) {
+      console.error('Failed to fetch fonts', err);
+      setStatus('Could not load fonts: ' + err.message, true);
+    } finally {
+      btnFetch.disabled = false;
+      btnFetch.textContent = 'Generate';
+    }
   }
 
   document.getElementById('lock-header').addEventListener('change', function () {
