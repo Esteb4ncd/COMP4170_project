@@ -11,6 +11,18 @@
   const btnFetch = document.getElementById('btn-fetch');
   const googleFontsLink = document.getElementById('google-fonts-link');
   const statusMessageEl = document.getElementById('status-message');
+  const sampleHeaderEl = document.getElementById('sample-header');
+  const sampleSubheaderEl = document.getElementById('sample-subheader');
+  const sampleBodyEl = document.getElementById('sample-body');
+  const inputHeaderEl = document.getElementById('input-header');
+  const inputSubheaderEl = document.getElementById('input-subheader');
+  const inputBodyEl = document.getElementById('input-body');
+
+  const defaultText = {
+    header: headerEl.textContent,
+    subheader: subheaderEl.textContent,
+    body: bodyEl.textContent,
+  };
 
   function setStatus(message, isError) {
     if (!statusMessageEl) return;
@@ -25,14 +37,17 @@
   function applyFonts() {
     if (fonts.header) {
       headerEl.style.fontFamily = `"${fonts.header}", serif`;
+      sampleHeaderEl.style.fontFamily = `"${fonts.header}", serif`;
       fontHeaderEl.textContent = fonts.header;
     }
     if (fonts.subheader) {
       subheaderEl.style.fontFamily = `"${fonts.subheader}", sans-serif`;
+      sampleSubheaderEl.style.fontFamily = `"${fonts.subheader}", sans-serif`;
       fontSubheaderEl.textContent = fonts.subheader;
     }
     if (fonts.body) {
       bodyEl.style.fontFamily = `"${fonts.body}", sans-serif`;
+      sampleBodyEl.style.fontFamily = `"${fonts.body}", sans-serif`;
       fontBodyEl.textContent = fonts.body;
     }
     const families = Array.from(new Set([fonts.header, fonts.subheader, fonts.body].filter(Boolean)));
@@ -48,6 +63,12 @@
     if (!locks.header) fonts.header = newCombo.header;
     if (!locks.subheader) fonts.subheader = newCombo.subheader;
     if (!locks.body) fonts.body = newCombo.body;
+  }
+
+  function updatePreviewText() {
+    headerEl.textContent = inputHeaderEl.value.trim() || defaultText.header;
+    subheaderEl.textContent = inputSubheaderEl.value.trim() || defaultText.subheader;
+    bodyEl.textContent = inputBodyEl.value.trim() || defaultText.body;
   }
 
   async function fetchCombination() {
@@ -92,9 +113,13 @@
   document.getElementById('lock-body').addEventListener('change', function () {
     locks.body = this.checked;
   });
+  inputHeaderEl.addEventListener('input', updatePreviewText);
+  inputSubheaderEl.addEventListener('input', updatePreviewText);
+  inputBodyEl.addEventListener('input', updatePreviewText);
 
   btnFetch.addEventListener('click', fetchCombination);
 
   // Load initial combination on page load
+  updatePreviewText();
   fetchCombination();
 })();
