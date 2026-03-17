@@ -9,36 +9,66 @@
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar">
-      <h2 class="sidebar-title">Controls</h2>
-      <button type="button" class="btn-fetch" id="btn-fetch">Generate</button>
-      <p class="status-message" id="status-message" aria-live="polite"></p>
-      <div class="slot" data-slot="header">
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-header" aria-label="Lock header font">
-          <span class="lock-label">Lock</span> Header
-        </label>
-        <span class="slot-font" id="font-header">—</span>
-      </div>
-      <div class="slot" data-slot="subheader">
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-subheader" aria-label="Lock subheader font">
-          <span class="lock-label">Lock</span> Subheader
-        </label>
-        <span class="slot-font" id="font-subheader">—</span>
-      </div>
-      <div class="slot" data-slot="body">
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-body" aria-label="Lock body font">
-          <span class="lock-label">Lock</span> Body
-        </label>
-        <span class="slot-font" id="font-body">—</span>
-      </div>
-    </aside>
-    <main class="preview">
-      <h1 class="preview-header" id="preview-header">Heading</h1>
-      <h2 class="preview-subheader" id="preview-subheader">Subheading</h2>
-      <p class="preview-body" id="preview-body">Body text. This is where paragraph content would appear so you can see how the font looks at a readable size.</p>
+    <header class="top-strip">
+      <span>Type Sample</span>
+      <span>Fonts</span>
+      <span>Weights</span>
+      <span>Type Pairing</span>
+      <span>Preview</span>
+    </header>
+
+    <p class="orbit-note">Life is too short to use safe fonts.</p>
+
+    <main class="studio-grid">
+      <section class="control-panel">
+        <div class="panel-head">
+          <h1 class="sidebar-title">Font Vibe Mixer</h1>
+          <p class="sidebar-hint">Like the style above, but brighter and playful.</p>
+        </div>
+
+        <div class="pair-names">
+          <span id="font-header">Recoleta</span>
+          <span id="font-subheader">Gordita</span>
+        </div>
+
+        <div class="big-sample" aria-hidden="true">Ag</div>
+
+        <div class="controls">
+          <button type="button" class="btn-fetch" id="btn-fetch">Generate Combo</button>
+          <p class="status-message" id="status-message" aria-live="polite"></p>
+
+          <div class="slot" data-slot="header">
+            <label class="slot-label">
+              <input type="checkbox" class="lock" id="lock-header" aria-label="Lock header font">
+              <span class="lock-label">Lock Header</span>
+            </label>
+          </div>
+          <div class="slot" data-slot="subheader">
+            <label class="slot-label">
+              <input type="checkbox" class="lock" id="lock-subheader" aria-label="Lock subheader font">
+              <span class="lock-label">Lock Subheader</span>
+            </label>
+          </div>
+          <div class="slot" data-slot="body">
+            <label class="slot-label">
+              <input type="checkbox" class="lock" id="lock-body" aria-label="Lock body font">
+              <span class="lock-label">Lock Body</span>
+            </label>
+          </div>
+          <p class="slot-font body-font-name" id="font-body">Inter</p>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="preview-meta">
+          <span>regular</span>
+          <span>medium</span>
+          <span>bold</span>
+        </div>
+        <h1 class="preview-header" id="preview-header">The Outermost House</h1>
+        <h2 class="preview-subheader" id="preview-subheader">A playful typography playground made for experimenting.</h2>
+        <p class="preview-body" id="preview-body">In a world older and more complete than ours they move finished and complete, gifted with extensions of the senses we have lost or never attained. Try generating a few combinations and keep the one that feels just right for your project.</p>
+      </section>
     </main>
   </div>
   <script src="/js/main.js"></script>
