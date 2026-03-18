@@ -1,3 +1,5 @@
+https://comp-4170-project.vercel.app/
+
 # Font Pairing App
 
 A simple Coolors-style tool for exploring font combinations. Sidebar controls let you lock header, subheader, or body and randomize the rest.
