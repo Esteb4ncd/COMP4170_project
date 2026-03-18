@@ -8,7 +8,18 @@
   <link id="google-fonts-link" rel="stylesheet" href="">
 </head>
 <body>
-  <div class="app">
+  <section class="landing" id="landing">
+    <div class="landing-glow landing-glow-one"></div>
+    <div class="landing-glow landing-glow-two"></div>
+    <div class="landing-content">
+      <p class="landing-kicker">Font Pairing Studio</p>
+      <h1 class="landing-title">Create Beautiful Font Combinations In Seconds</h1>
+      <p class="landing-subtitle">Explore playful typography pairings, preview every letter clearly, and test your own copy live.</p>
+      <button type="button" class="landing-cta" id="start-generating">Start Generating</button>
+    </div>
+  </section>
+
+  <div class="app app-hidden" id="generator-app" aria-hidden="true">
     <aside class="sidebar">
       <h1 class="sidebar-title">Font Pair Playground</h1>
       <p class="sidebar-hint">Generate from the database, lock fonts you like, and test with your own words.</p>
@@ -61,6 +72,7 @@
       <p class="sample-line" id="sample-body">Pack my box with five dozen liquor jugs. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
     </main>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbvY1f6fM4bNw7jY5VhQXmxhXv7n5Qn2ATqNnS/xP8s3HdWu3UwG+329xNXmLKcKD5Vac/mswHx0Er8xQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/js/main.js"></script>
 </body>
 </html>

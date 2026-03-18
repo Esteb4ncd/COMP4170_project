@@ -11,6 +11,91 @@ body {
   background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
 }
 
+.landing {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 20% 20%, #dbeafe 0%, #ede9fe 35%, #fce7f3 100%);
+}
+
+.landing-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 22px;
+  padding: 2.4rem 2rem;
+  box-shadow: 0 24px 50px rgba(79, 70, 229, 0.18);
+}
+
+.landing-kicker {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #4f46e5;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.landing-title {
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1.06;
+  color: #0f172a;
+  margin-bottom: 0.9rem;
+}
+
+.landing-subtitle {
+  color: #334155;
+  font-size: 1.04rem;
+  line-height: 1.7;
+  margin-bottom: 1.3rem;
+}
+
+.landing-cta {
+  border: none;
+  border-radius: 999px;
+  padding: 0.86rem 1.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #2563eb, #7c3aed 55%, #ec4899);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.3);
+  transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+.landing-cta:hover {
+  transform: translateY(-1px) scale(1.01);
+  filter: saturate(1.12);
+}
+
+.landing-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 999px;
+  filter: blur(44px);
+  opacity: 0.7;
+}
+
+.landing-glow-one {
+  top: -120px;
+  left: -60px;
+  background: #a5b4fc;
+}
+
+.landing-glow-two {
+  bottom: -160px;
+  right: -80px;
+  background: #f9a8d4;
+}
+
 .app {
   min-height: 100dvh;
   max-width: 1200px;
@@ -19,6 +104,10 @@ body {
   display: grid;
   grid-template-columns: 340px 1fr;
   gap: 1.2rem;
+}
+
+.app-hidden {
+  display: none;
 }
 
 .sidebar,
@@ -180,6 +269,10 @@ body {
 }
 
 @media (max-width: 880px) {
+  .landing-content {
+    padding: 1.55rem 1.1rem;
+  }
+
   .app {
     grid-template-columns: 1fr;
   }

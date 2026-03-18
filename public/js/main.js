@@ -1,4 +1,8 @@
 (function () {
+  const landingEl = document.getElementById('landing');
+  const startBtn = document.getElementById('start-generating');
+  const appEl = document.getElementById('generator-app');
+
   const fonts = { header: '', subheader: '', body: '' };
   const locks = { header: false, subheader: false, body: false };
 
@@ -23,6 +27,7 @@
     subheader: subheaderEl.textContent,
     body: bodyEl.textContent,
   };
+  let hasInitialized = false;
 
   function setStatus(message, isError) {
     if (!statusMessageEl) return;
@@ -119,7 +124,48 @@
 
   btnFetch.addEventListener('click', fetchCombination);
 
-  // Load initial combination on page load
-  updatePreviewText();
-  fetchCombination();
+  function initGenerator() {
+    if (hasInitialized) return;
+    hasInitialized = true;
+    updatePreviewText();
+    fetchCombination();
+  }
+
+  function showGenerator() {
+    if (landingEl) {
+      landingEl.style.display = 'none';
+    }
+    appEl.classList.remove('app-hidden');
+    appEl.setAttribute('aria-hidden', 'false');
+    initGenerator();
+  }
+
+  if (startBtn && landingEl && appEl) {
+    startBtn.addEventListener('click', function () {
+      if (window.gsap) {
+        const tl = window.gsap.timeline({
+          onComplete: showGenerator,
+        });
+        tl.to('.landing-content', { y: -16, opacity: 0, duration: 0.45, ease: 'power2.inOut' })
+          .to('.landing-glow', { opacity: 0, duration: 0.25 }, '<')
+          .to('#landing', { opacity: 0, duration: 0.3 }, '-=0.1');
+      } else {
+        showGenerator();
+      }
+    });
+
+    if (window.gsap) {
+      const tl = window.gsap.timeline();
+      tl.from('.landing-kicker', { y: 20, opacity: 0, duration: 0.5, ease: 'power2.out' })
+        .from('.landing-title', { y: 28, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.25')
+        .from('.landing-subtitle', { y: 22, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+        .from('.landing-cta', { y: 16, opacity: 0, scale: 0.96, duration: 0.45, ease: 'back.out(1.3)' }, '-=0.2');
+      window.gsap.to('.landing-glow-one', { x: 25, y: 16, duration: 3.2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      window.gsap.to('.landing-glow-two', { x: -18, y: -18, duration: 3.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    }
+  } else {
+    appEl.classList.remove('app-hidden');
+    appEl.setAttribute('aria-hidden', 'false');
+    initGenerator();
+  }
 })();
