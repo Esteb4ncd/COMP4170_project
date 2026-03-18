@@ -24,53 +24,133 @@
       <h1 class="sidebar-title">Font Pair Playground</h1>
       <p class="sidebar-hint">Generate from the database, lock fonts you like, and test with your own words.</p>
 
-      <button type="button" class="btn-fetch" id="btn-fetch">Generate</button>
-      <p class="status-message" id="status-message" aria-live="polite"></p>
-
-      <section class="panel">
-        <h2 class="panel-title">Current Fonts</h2>
-        <p class="font-row">Header: <span id="font-header">-</span></p>
-        <p class="font-row">Subheader: <span id="font-subheader">-</span></p>
-        <p class="font-row">Body: <span id="font-body">-</span></p>
+      <section class="panel generate-panel">
+        <button type="button" class="btn-fetch" id="btn-fetch">Generate</button>
+        <p class="status-message" id="status-message" aria-live="polite"></p>
       </section>
 
       <section class="panel">
-        <h2 class="panel-title">Lock Fonts</h2>
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-header" aria-label="Lock header font">
-          Lock header font
-        </label>
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-subheader" aria-label="Lock subheader font">
-          Lock subheader font
-        </label>
-        <label class="slot-label">
-          <input type="checkbox" class="lock" id="lock-body" aria-label="Lock body font">
-          Lock body font
-        </label>
-      </section>
+        <h2 class="panel-title">Style Controls</h2>
 
-      <section class="panel">
-        <h2 class="panel-title">Try Your Own Text</h2>
-        <label class="input-label" for="input-header">Heading text</label>
-        <input id="input-header" class="text-input" type="text" placeholder="Type your heading...">
-        <label class="input-label" for="input-subheader">Subheading text</label>
-        <input id="input-subheader" class="text-input" type="text" placeholder="Type your subheading...">
-        <label class="input-label" for="input-body">Body text</label>
-        <textarea id="input-body" class="text-input text-area" rows="4" placeholder="Type your paragraph..."></textarea>
+        <div class="style-group">
+          <h3 class="style-group-title">Header</h3>
+          <label class="input-label" for="size-header">Size <span class="value-chip" id="size-header-value">56px</span></label>
+          <input id="size-header" class="range-input" type="range" min="28" max="96" value="56">
+
+          <label class="input-label" for="weight-header">Weight</label>
+          <select id="weight-header" class="text-input">
+            <option value="300">Light (300)</option>
+            <option value="400">Regular (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600">Semi Bold (600)</option>
+            <option value="700" selected>Bold (700)</option>
+            <option value="800">Extra Bold (800)</option>
+          </select>
+
+          <label class="input-label" for="color-header">Color</label>
+          <input id="color-header" class="color-input" type="color" value="#111827">
+        </div>
+
+        <div class="style-group">
+          <h3 class="style-group-title">Subheader</h3>
+          <label class="input-label" for="size-subheader">Size <span class="value-chip" id="size-subheader-value">30px</span></label>
+          <input id="size-subheader" class="range-input" type="range" min="18" max="60" value="30">
+
+          <label class="input-label" for="weight-subheader">Weight</label>
+          <select id="weight-subheader" class="text-input">
+            <option value="300">Light (300)</option>
+            <option value="400">Regular (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600" selected>Semi Bold (600)</option>
+            <option value="700">Bold (700)</option>
+            <option value="800">Extra Bold (800)</option>
+          </select>
+
+          <label class="input-label" for="color-subheader">Color</label>
+          <input id="color-subheader" class="color-input" type="color" value="#4f46e5">
+        </div>
+
+        <div class="style-group">
+          <h3 class="style-group-title">Body</h3>
+          <label class="input-label" for="size-body">Size <span class="value-chip" id="size-body-value">18px</span></label>
+          <input id="size-body" class="range-input" type="range" min="14" max="32" value="18">
+
+          <label class="input-label" for="weight-body">Weight</label>
+          <select id="weight-body" class="text-input">
+            <option value="300">Light (300)</option>
+            <option value="400" selected>Regular (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600">Semi Bold (600)</option>
+            <option value="700">Bold (700)</option>
+          </select>
+
+          <label class="input-label" for="color-body">Color</label>
+          <input id="color-body" class="color-input" type="color" value="#334155">
+        </div>
       </section>
     </aside>
 
     <main class="preview-panel">
-      <h1 class="preview-header" id="preview-header">Design your heading here</h1>
-      <p class="sample-line" id="sample-header">The quick brown fox jumps over the lazy dog. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
+      <section class="preview-card">
+        <div class="preview-content">
+        <div class="preview-line">
+          <h1 class="preview-header" id="preview-header">Design your heading here</h1>
+          <button type="button" class="edit-text-btn" data-target="header">Edit</button>
+        </div>
+        <p class="sample-line" id="sample-header">The quick brown fox jumps over the lazy dog. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
 
-      <h2 class="preview-subheader" id="preview-subheader">Subheading preview text goes here</h2>
-      <p class="sample-line" id="sample-subheader">Sphinx of black quartz, judge my vow. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
+        <div class="preview-line">
+          <h2 class="preview-subheader" id="preview-subheader">Subheading preview text goes here</h2>
+          <button type="button" class="edit-text-btn" data-target="subheader">Edit</button>
+        </div>
+        <p class="sample-line" id="sample-subheader">Sphinx of black quartz, judge my vow. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
 
-      <p class="preview-body" id="preview-body">Use this section to test your body copy. You can type your own sentence in the left panel and it will update live so every letter and spacing detail is easy to review.</p>
-      <p class="sample-line" id="sample-body">Pack my box with five dozen liquor jugs. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
+        <div class="preview-line preview-line-body">
+          <p class="preview-body" id="preview-body">Use this section to test your body copy. You can type your own sentence in the left panel and it will update live so every letter and spacing detail is easy to review.</p>
+          <button type="button" class="edit-text-btn" data-target="body">Edit</button>
+        </div>
+        <p class="sample-line" id="sample-body">Pack my box with five dozen liquor jugs. ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p>
+        </div>
+      </section>
+
+      <section class="under-preview-card">
+        <section class="under-preview-section">
+          <h2 class="panel-title">Current Fonts</h2>
+          <p class="font-row">Header: <span id="font-header">-</span></p>
+          <p class="font-row">Subheader: <span id="font-subheader">-</span></p>
+          <p class="font-row">Body: <span id="font-body">-</span></p>
+        </section>
+
+        <section class="under-preview-section">
+          <h2 class="panel-title">Lock Fonts</h2>
+          <label class="slot-label">
+            <input type="checkbox" class="lock" id="lock-header" aria-label="Lock header font">
+            Lock header font
+          </label>
+          <label class="slot-label">
+            <input type="checkbox" class="lock" id="lock-subheader" aria-label="Lock subheader font">
+            Lock subheader font
+          </label>
+          <label class="slot-label">
+            <input type="checkbox" class="lock" id="lock-body" aria-label="Lock body font">
+            Lock body font
+          </label>
+        </section>
+      </section>
     </main>
+  </div>
+
+  <div class="text-modal hidden" id="text-edit-modal" aria-hidden="true">
+    <div class="text-modal-backdrop" data-close-modal="true"></div>
+    <div class="text-modal-card" role="dialog" aria-modal="true" aria-labelledby="text-modal-title">
+      <h2 class="text-modal-title" id="text-modal-title">Edit Text</h2>
+      <p class="text-modal-subtitle" id="text-modal-subtitle">Update your preview sentence.</p>
+      <textarea id="text-modal-input" class="text-modal-input" rows="5"></textarea>
+      <div class="text-modal-actions">
+        <button type="button" class="modal-btn modal-btn-secondary" id="text-modal-cancel">Cancel</button>
+        <button type="button" class="modal-btn modal-btn-primary" id="text-modal-save">Save</button>
+      </div>
+    </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbvY1f6fM4bNw7jY5VhQXmxhXv7n5Qn2ATqNnS/xP8s3HdWu3UwG+329xNXmLKcKD5Vac/mswHx0Er8xQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/js/main.js"></script>

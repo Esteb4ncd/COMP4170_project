@@ -18,9 +18,36 @@
   const sampleHeaderEl = document.getElementById('sample-header');
   const sampleSubheaderEl = document.getElementById('sample-subheader');
   const sampleBodyEl = document.getElementById('sample-body');
-  const inputHeaderEl = document.getElementById('input-header');
-  const inputSubheaderEl = document.getElementById('input-subheader');
-  const inputBodyEl = document.getElementById('input-body');
+  const editButtons = document.querySelectorAll('.edit-text-btn');
+  const textModalEl = document.getElementById('text-edit-modal');
+  const textModalTitleEl = document.getElementById('text-modal-title');
+  const textModalSubtitleEl = document.getElementById('text-modal-subtitle');
+  const textModalInputEl = document.getElementById('text-modal-input');
+  const textModalSaveBtn = document.getElementById('text-modal-save');
+  const textModalCancelBtn = document.getElementById('text-modal-cancel');
+  const styleControls = {
+    header: {
+      size: document.getElementById('size-header'),
+      sizeValue: document.getElementById('size-header-value'),
+      weight: document.getElementById('weight-header'),
+      color: document.getElementById('color-header'),
+      previewEl: headerEl,
+    },
+    subheader: {
+      size: document.getElementById('size-subheader'),
+      sizeValue: document.getElementById('size-subheader-value'),
+      weight: document.getElementById('weight-subheader'),
+      color: document.getElementById('color-subheader'),
+      previewEl: subheaderEl,
+    },
+    body: {
+      size: document.getElementById('size-body'),
+      sizeValue: document.getElementById('size-body-value'),
+      weight: document.getElementById('weight-body'),
+      color: document.getElementById('color-body'),
+      previewEl: bodyEl,
+    },
+  };
 
   const defaultText = {
     header: headerEl.textContent,
@@ -28,6 +55,7 @@
     body: bodyEl.textContent,
   };
   let hasInitialized = false;
+  let editingTarget = null;
 
   function setStatus(message, isError) {
     if (!statusMessageEl) return;
@@ -70,10 +98,74 @@
     if (!locks.body) fonts.body = newCombo.body;
   }
 
-  function updatePreviewText() {
-    headerEl.textContent = inputHeaderEl.value.trim() || defaultText.header;
-    subheaderEl.textContent = inputSubheaderEl.value.trim() || defaultText.subheader;
-    bodyEl.textContent = inputBodyEl.value.trim() || defaultText.body;
+  function setupInlineEditing() {
+    editButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const target = button.getAttribute('data-target');
+        openTextModal(target);
+      });
+    });
+  }
+
+  function getTargetPreviewEl(target) {
+    return target === 'header'
+      ? headerEl
+      : target === 'subheader'
+        ? subheaderEl
+        : bodyEl;
+  }
+
+  function getTargetLabel(target) {
+    return target === 'header'
+      ? 'Heading'
+      : target === 'subheader'
+        ? 'Subheading'
+        : 'Body text';
+  }
+
+  function openTextModal(target) {
+    if (!textModalEl || !textModalInputEl) return;
+    editingTarget = target;
+
+    const targetEl = getTargetPreviewEl(target);
+    const label = getTargetLabel(target);
+
+    textModalTitleEl.textContent = 'Edit ' + label;
+    textModalSubtitleEl.textContent = 'Update your ' + label.toLowerCase() + ' preview text.';
+    textModalInputEl.value = targetEl.textContent.trim();
+
+    textModalEl.classList.remove('hidden');
+    textModalEl.setAttribute('aria-hidden', 'false');
+    textModalInputEl.focus();
+    textModalInputEl.setSelectionRange(textModalInputEl.value.length, textModalInputEl.value.length);
+  }
+
+  function closeTextModal() {
+    if (!textModalEl) return;
+    textModalEl.classList.add('hidden');
+    textModalEl.setAttribute('aria-hidden', 'true');
+    editingTarget = null;
+  }
+
+  function saveModalText() {
+    if (!editingTarget || !textModalInputEl) return;
+    const cleaned = textModalInputEl.value.trim();
+    const targetEl = getTargetPreviewEl(editingTarget);
+    targetEl.textContent = cleaned || defaultText[editingTarget];
+    closeTextModal();
+  }
+
+  function applyTextStyles() {
+    Object.keys(styleControls).forEach(function (key) {
+      const control = styleControls[key];
+      if (!control.size || !control.weight || !control.color || !control.previewEl) return;
+
+      const sizePx = control.size.value + 'px';
+      control.previewEl.style.fontSize = sizePx;
+      control.previewEl.style.fontWeight = control.weight.value;
+      control.previewEl.style.color = control.color.value;
+      if (control.sizeValue) control.sizeValue.textContent = sizePx;
+    });
   }
 
   async function fetchCombination() {
@@ -118,16 +210,33 @@
   document.getElementById('lock-body').addEventListener('change', function () {
     locks.body = this.checked;
   });
-  inputHeaderEl.addEventListener('input', updatePreviewText);
-  inputSubheaderEl.addEventListener('input', updatePreviewText);
-  inputBodyEl.addEventListener('input', updatePreviewText);
+  Object.keys(styleControls).forEach(function (key) {
+    const control = styleControls[key];
+    if (control.size) control.size.addEventListener('input', applyTextStyles);
+    if (control.weight) control.weight.addEventListener('change', applyTextStyles);
+    if (control.color) control.color.addEventListener('input', applyTextStyles);
+  });
 
   btnFetch.addEventListener('click', fetchCombination);
+  if (textModalSaveBtn) textModalSaveBtn.addEventListener('click', saveModalText);
+  if (textModalCancelBtn) textModalCancelBtn.addEventListener('click', closeTextModal);
+  if (textModalEl) {
+    textModalEl.addEventListener('click', function (event) {
+      const closeTarget = event.target.getAttribute('data-close-modal');
+      if (closeTarget === 'true') closeTextModal();
+    });
+  }
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && textModalEl && !textModalEl.classList.contains('hidden')) {
+      closeTextModal();
+    }
+  });
 
   function initGenerator() {
     if (hasInitialized) return;
     hasInitialized = true;
-    updatePreviewText();
+    setupInlineEditing();
+    applyTextStyles();
     fetchCombination();
   }
 
