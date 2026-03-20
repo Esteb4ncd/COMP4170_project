@@ -1,6 +1,9 @@
+# Phonts Team README
+
+Deployed Site:
 https://comp-4170-project.vercel.app/
 
-# Font Pairing App
+# Project Description
 
 A simple Coolors-style tool for exploring font combinations. Sidebar controls let you lock header, subheader, or body and randomize the rest.
 
@@ -20,7 +23,7 @@ git remote add origin git@github.com:Esteb4ncd/COMP4170_project.git
 git push -u origin main
 ```
 
-## For team members: clone and run
+## How to run the application locally
 
 1. **Clone the repo**:
    ```bash
@@ -34,18 +37,21 @@ git push -u origin main
    npm install
    ```
 
-3. **Set up the database** (see "Database" below). If you don't have PostgreSQL yet, you can still run the app and view the page; only the health check will fail.
+3. **Set up the database** (see "Database" below).
+   If you don't have PostgreSQL yet, you can still run the app and view the page/
+   The health check will fail and when you click "generate" it will return an error message.
 
-4. **Configure environment**:
+5. **Configure environment**:
    ```bash
    cp .env.example .env
    ```
    Edit `.env` and set `DATABASE_URL` to your PostgreSQL connection string.
 
-5. **Start the server**:
+6. **Start the server**:
    ```bash
    npm start
    ```
+   
    Open **http://localhost:3000**.
 
 ## Database
@@ -62,38 +68,23 @@ git push -u origin main
 
 ---
 
-## Tasks by team member
+## Team Contributions
 
-### Person 1 (done)
+### Sarah - Front-End UI & Interaction Design
 
-- Project setup: `package.json`, dependencies (Express, EJS, pg, dotenv), `npm start`.
-- Express server: `server.js`, EJS views, static files from `public/`, route `GET /`.
-- Layout: one page with sidebar (left) and preview area (right) showing Heading, Subheading, Body.
-- CSS: layout and styling in `public/css/style.css`.
-- PostgreSQL: connection in code (`pg` + `DATABASE_URL`), table defined in `db/schema.sql`, route `GET /api/health` to test DB.
-- Font list and random API: in-memory list of Google Fonts, route `GET /api/random-combination` (no DB).
-- Sidebar and “Fetch fonts”: button, lock checkboxes for Header/Subheader/Body, font names in sidebar; JS in `public/js/main.js` to fetch, respect locks, and apply fonts to preview (Google Fonts loaded dynamically).
-- README, `.env.example`, `.gitignore`, Git repo.
+Sarah was responsible for the core user interface and interactive features of the application. She designed and implemented the live preview system, including the style controls (font size, weight, and color) that dynamically update the DOM in real time. She also developed the editable text modal, allowing users to customize preview content for more realistic typography testing. Overall, her work focused on creating a responsive and intuitive user experience through direct frontend state updates without page reloads.
 
----
 
-### Person 2: Save combination
+### Esteban - Front-End Logic & Client-Side Interaction
 
-- **Backend:** Add `POST /api/combinations`. Use `express.json()` middleware so you can read `req.body`. Expect `{ header, subheader, body }` (font names). Validate; insert one row into `font_combinations` (header_font, subheader_font, body_font). Return 201 or success message.
-- **Front-end:** Add a “Save combination” button in the sidebar. In `main.js`, on click send a POST to `/api/combinations` with the current `fonts.header`, `fonts.subheader`, `fonts.body`. Show “Saved” or an error message.
+Esteban implemented the main frontend logic for generating and updating font combinations. He handled the integration between the UI and backend API, including sending requests to /api/random-combination and updating the preview with returned data. He also developed the font lock system, enabling users to preserve selected fonts while regenerating others. Additionally, he implemented dynamic Google Fonts loading by updating the <link> element, ensuring fonts are fetched and rendered correctly in real time.
 
----
 
-### Person 3: List saved combinations
+### Emma - Database Design & Data Modeling
 
-- **Backend:** Add `GET /api/combinations` (or a page like `GET /saved`). Query `font_combinations` (e.g. `ORDER BY created_at DESC`), return JSON or pass the list to an EJS view.
-- **Front-end:** Add a way to see saved combos: e.g. a “Saved” link → new page/section that lists them. For each row show the three font names; optionally render a short preview (same three fonts) by loading them via Google Fonts. Optional: “Use this” button to apply a saved combo to the main preview.
+Emma designed and implemented the PostgreSQL database structure. She created and normalized the schema by separating data into fonts and font_combinations tables, using primary keys and foreign keys to maintain data integrity. She also added constraints (such as uniqueness) to prevent duplicate entries and ensure consistency. Emma was responsible for populating the database with curated font combinations and ensuring the data structure was scalable and efficient for retrieval.
 
----
 
-### Person 4: Database setup, errors, polish, README
+### Kayla - Backend Development & API Integration
 
-- **Database setup:** In README, add clear steps: create DB (e.g. ElephantSQL), run `db/schema.sql`, set `DATABASE_URL` in `.env`.
-- **Error handling:** If DB is missing or down, handle gracefully (e.g. `/api/health` or startup message). For `POST /api/combinations`, return 400 if body is invalid; for list endpoint, return 500 with a generic message if the query fails.
-- **Polish:** Responsive layout (sidebar stacks or collapses on small screens). Basic accessibility (labels, focus states). Optional: loading state when clicking “Fetch fonts” or “Save”.
-- **README:** Update “Tasks by team member” with each person’s name when done. Ensure “How to run locally” is complete (clone, install, DB, `.env`, `npm start`). Optional: add “Deploy to Render” steps.
+Kayla developed the backend using Node.js and Express, connecting the frontend to the PostgreSQL database. She implemented the API endpoint /api/random-combination, which queries the database to retrieve a random font combination using SQL joins. She ensured the server returns clean JSON responses that the frontend can immediately use. Kayla also handled database connection setup and optimized backend logic to keep the system simple, efficient, and responsive.
